@@ -1,5 +1,7 @@
 import fastapi as FastAPI
 from src.middlewares import error_handler
+from src.api import employee         
+
 
 app = FastAPI.FastAPI()
 
