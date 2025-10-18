@@ -65,7 +65,6 @@ class RsaService:
         return decrypted.decode("utf-8")
 
 
-# Тестовий запуск (не обов’язковий для звіту)
 if __name__ == "__main__":
     service = RsaService()
 

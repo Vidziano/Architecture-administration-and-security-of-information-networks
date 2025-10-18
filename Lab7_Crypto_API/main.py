@@ -1,20 +1,15 @@
 import fastapi as FastAPI
 from src.middlewares import error_handler
-from src.api import employee         
-from src.api import rsa_api
+from src.api import employee, rsa_api, aes_api
 
+# Ініціалізація FastAPI
 app = FastAPI.FastAPI()
 
-# додаємо маршрути з файлу employee.py
-app.include_router(employee.router)
+# Підключення маршрутів (ендпоінтів)
+app.include_router(employee.router)   # залишилось із ЛР6
+app.include_router(rsa_api.router)    
+app.include_router(aes_api.router)    
 
-
-# Підключаємо новий роутер
-app.include_router(rsa_api.router)
-
-# Додаємо middleware
+# Підключення middleware та глобальних обробників помилок
 app.add_middleware(error_handler.ErrorHandlerMiddleware)
-
-# Реєструємо глобальний exception handler
 error_handler.setup_exception_handlers(app)
-
