@@ -21,7 +21,7 @@ class SessionService:
         for _ in range(10):
             rsa_id = str(uuid.uuid4())
             self.rsa_pool[rsa_id] = self.rsa_service.generate_keys()
-        print(f"🔐 Ініціалізовано {len(self.rsa_pool)} RSA-пар ключів")
+        print(f" Ініціалізовано {len(self.rsa_pool)} RSA-пар ключів")
 
     def get_random_rsa_pair(self) -> tuple[str, RsaKeys]:
         """Повертає випадкову RSA-пару (id, keys)."""

@@ -1,7 +1,6 @@
 import sys
 import os
 
-# === Додати шлях до кореня проєкту ===
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import requests
@@ -31,7 +30,7 @@ def get_public_key():
     data = resp.json()
     rsa_id = data["rsa_id"]
     public_key = data["public_key"]
-    print(f"✅ Отримано RSA ключ із id: {rsa_id[:8]}...")
+    print(f" Отримано RSA ключ із id: {rsa_id[:8]}...")
     log_event(f"Отримано RSA ключ із id: {rsa_id}")
     return rsa_id, public_key
 
@@ -53,7 +52,7 @@ def perform_handshake(rsa_id, public_key, aes_key, session_id):
 
     resp = requests.post(f"{API_BASE}/handshake", json=payload, headers=headers)
     result = resp.json()
-    print("🤝 Handshake:", result)
+    print(" Handshake:", result)
     log_event(f"Handshake established: {result}")
 
 
@@ -67,7 +66,7 @@ def send_encrypted_message(session_id, aes_key, message):
     data = resp.json()
 
     decrypted = aes_service.decrypt(aes_key, data["cipher_text"])
-    print(f"📩 Відповідь сервера:\n{decrypted}\n")
+    print(f" Відповідь сервера:\n{decrypted}\n")
 
     # Запис у лог
     log_event(f"Client: {message}")
@@ -75,7 +74,7 @@ def send_encrypted_message(session_id, aes_key, message):
 
 
 def main():
-    print("🔒 Secure Console Client Started")
+    print(" Secure Console Client Started")
 
     # 1️ Отримати публічний ключ
     rsa_id, public_key = get_public_key()
@@ -91,7 +90,7 @@ def main():
     while True:
         msg = input("Введіть повідомлення ('exit' для виходу): ")
         if msg.lower() == "exit":
-            print("👋 Завершення сесії.")
+            print(" Завершення сесії.")
             log_event("Сесію завершено користувачем.\n")
             break
         send_encrypted_message(session_id, aes_key, msg)

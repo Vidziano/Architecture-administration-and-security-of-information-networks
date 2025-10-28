@@ -16,3 +16,15 @@
 [2025-10-25 21:41:07] Server: [21:41:07] Server received: привет
 [2025-10-25 21:47:30] Client: пр
 [2025-10-25 21:47:30] Server: [21:47:30] Server received: пр
+[2025-10-28 06:56:38] Отримано RSA ключ із id: 991523cd-bed7-4a3c-869b-0887c597460d
+[2025-10-28 06:56:39] Handshake established: {'status': 'handshake_successful', 'session_id': '8d9083b5-b17d-4c5c-af5c-14ebafe0a1b6'}
+[2025-10-28 06:56:54] Client: привіт
+[2025-10-28 06:56:54] Server: [06:56:54] Server received: привіт
+[2025-10-28 08:15:23] Отримано RSA ключ із id: 8f3d9639-8b95-410d-a9da-571b25d66b74
+[2025-10-28 08:15:23] Handshake established: {'status': 'handshake_successful', 'session_id': '6d6cb61a-c9dc-4e2d-bcdb-96c067988912'}
+[2025-10-28 08:15:33] Client: привіт
+[2025-10-28 08:15:33] Server: [08:15:33] Server received: привіт
+[2025-10-28 08:33:25] Отримано RSA ключ із id: e8ad1737-62d7-4a9d-9842-d47523d4333e
+[2025-10-28 08:33:25] Handshake established: {'status': 'handshake_successful', 'session_id': '2e1e006e-f367-414c-94a7-230286feadf3'}
+[2025-10-28 08:33:30] Client: привіт
+[2025-10-28 08:33:30] Server: [08:33:30] Server received: привіт
