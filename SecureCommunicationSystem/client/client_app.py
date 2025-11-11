@@ -9,6 +9,9 @@ import datetime
 from src.services.aes_service import AesService
 from src.services.rsa_service import RsaService
 from src.models.aes_key import AesKey
+from src.services.hash_service import HashService
+hash_service = HashService()
+
 
 API_BASE = "http://127.0.0.1:8000/api/session"
 
@@ -57,14 +60,24 @@ def perform_handshake(rsa_id, public_key, aes_key, session_id):
 
 
 def send_encrypted_message(session_id, aes_key, message):
-    """Шифрує повідомлення, надсилає його на сервер і виводить відповідь."""
-    cipher_text = aes_service.encrypt(aes_key, message)
-    headers = {"x-session-id": session_id}
-    body = {"cipher_text": cipher_text}
+    """Шифрує повідомлення, додає SHA-256 хеш, надсилає на сервер і виводить відповідь."""
+    # Обчислюємо SHA-256 хеш повідомлення
+    hash_value = hash_service.sha256(message)
 
+    # Шифруємо повідомлення AES
+    cipher_text = aes_service.encrypt(aes_key, message)
+
+    # Формуємо тіло запиту з хешем
+    headers = {"x-session-id": session_id}
+
+    body = {"cipher_text": cipher_text, "hash": hash_value}
+    #  Навмисне псування хешу для тесту
+    # body = {"cipher_text": cipher_text, "hash": "12345_fake_hash_value"}
+
+    # Надсилаємо запит до сервера
     resp = requests.post(f"{API_BASE}/message", json=body, headers=headers)
 
-    # ⬇️ 1. Перевіряємо код відповіді ПЕРШИМ
+    # 1️⃣ Перевірка на завершення сесії
     if resp.status_code == 440:
         print(" !!! Сесія завершилась. Створюється нова...")
         log_event("Сесія завершилась — ініціація нової.")
@@ -73,31 +86,35 @@ def send_encrypted_message(session_id, aes_key, message):
         new_session_id = str(uuid.uuid4())
         perform_handshake(rsa_id, public_key, new_aes_key, new_session_id)
         print("  Нова сесія створена. Повторіть відправку повідомлення.")
-        # ⬅️ Повертаємо нові дані
         return new_session_id, new_aes_key
 
+    # 2️⃣ Перевірка на пошкодження або відсутність хешу
+    elif resp.status_code == 400:
+        print("  Сервер відхилив повідомлення: порушена цілісність або відсутній hash.")
+        log_event(f"Integrity error 400: {resp.text}")
+        return session_id, aes_key
+
+    # 3️⃣ Інші помилки
     elif resp.status_code != 200:
         print(f"  Помилка сервера ({resp.status_code}): {resp.text}")
         log_event(f"Помилка сервера: {resp.text}")
-        return session_id, aes_key  # повертаємо поточні, щоб не зламати цикл
+        return session_id, aes_key
 
-    # ⬇️ 2. Тільки тепер парсимо JSON
+    # 4️⃣ Якщо все добре — розшифровуємо відповідь
     data = resp.json()
-
     if "cipher_text" not in data:
         print(f"  Невірна відповідь сервера: {data}")
         log_event(f"Server returned unexpected JSON: {data}")
         return session_id, aes_key
 
-    # ⬇️ 3. Розшифровуємо і виводимо відповідь
     decrypted = aes_service.decrypt(aes_key, data["cipher_text"])
     print(f" Відповідь сервера:\n{decrypted}\n")
 
     log_event(f"Client: {message}")
     log_event(f"Server: {decrypted}")
 
-    # ⬅️ Повертаємо поточну сесію (без змін)
     return session_id, aes_key
+
 
 
 

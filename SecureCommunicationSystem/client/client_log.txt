@@ -95,3 +95,26 @@
 [2025-11-11 01:50:53] Server: [23:50:53 UTC] Server received: привіт знову нова сесія
 [2025-11-11 01:51:09] Сесію завершено користувачем.
 
+[2025-11-11 02:15:41] Отримано RSA ключ із id: fa277115-0981-4e14-b694-b0946d23e67b
+[2025-11-11 02:15:41] Handshake established: {'status': 'handshake_successful', 'session_id': '4e2984b8-f676-4811-9eb0-53b1cd26865b'}
+[2025-11-11 02:15:46] Client: привіт
+[2025-11-11 02:15:46] Server: [00:15:46 UTC] Server received: привіт
+[2025-11-11 02:15:52] Client: хай
+[2025-11-11 02:15:52] Server: [00:15:52 UTC] Server received: хай
+[2025-11-11 02:17:09] Сесія завершилась — ініціація нової.
+[2025-11-11 02:17:09] Отримано RSA ключ із id: d2dd6f98-e072-45e3-a38b-55ff3761c66d
+[2025-11-11 02:17:09] Handshake established: {'status': 'handshake_successful', 'session_id': '48ef66d8-0b8b-491c-a653-ece6a32ce7d1'}
+[2025-11-11 02:17:11] Client: хай
+[2025-11-11 02:17:11] Server: [00:17:11 UTC] Server received: хай
+[2025-11-11 02:17:41] Отримано RSA ключ із id: ed1ddefb-6991-4410-84e5-01e83b15ba99
+[2025-11-11 02:17:41] Handshake established: {'status': 'handshake_successful', 'session_id': '6544be2f-7276-4d7d-9aa6-79d15cc53e12'}
+[2025-11-11 02:17:43] Integrity error 400: {"error":"Data tampered or corrupted"}
+[2025-11-11 02:19:00] Отримано RSA ключ із id: 49370626-765d-40cc-9432-d10291b9eaac
+[2025-11-11 02:19:00] Handshake established: {'status': 'handshake_successful', 'session_id': 'd4d3986b-abc2-466a-aaff-714662db4794'}
+[2025-11-11 02:19:05] Client: привіт
+[2025-11-11 02:19:05] Server: [00:19:05 UTC] Server received: привіт
+[2025-11-11 02:20:12] Сесія завершилась — ініціація нової.
+[2025-11-11 02:20:12] Отримано RSA ключ із id: cf22e90d-0f2d-4384-bcb7-f6030385b453
+[2025-11-11 02:20:12] Handshake established: {'status': 'handshake_successful', 'session_id': 'bc583101-508f-4c8f-9b5c-e467d93eb3b2'}
+[2025-11-11 02:20:14] Client: привіт
+[2025-11-11 02:20:14] Server: [00:20:14 UTC] Server received: привіт

@@ -6,6 +6,9 @@ from src.services.aes_service import AesService
 from src.models.aes_key import AesKey
 from src.services.rsa_service import RsaService
 from dateutil import parser   
+from src.services.hash_service import HashService
+hash_service = HashService()
+
 
 router = APIRouter(prefix="/api/session", tags=["Session API"])
 
@@ -55,35 +58,42 @@ def handshake(
 def message(data: dict, x_session_id: str = Header(...)):
     """
     Крок 3: Сервер приймає AES-зашифроване повідомлення,
-    розшифровує його, додає час і відправляє відповідь.
+    перевіряє термін дії сесії, валідує SHA-256 хеш і формує відповідь.
     """
     session = session_service.get_session(x_session_id)
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
 
-    #  Перевірка терміну дії сесії з урахуванням типів
+    # Перевірка терміну дії сесії
     expired_at = session.expired_at
     if isinstance(expired_at, str):
         expired_at = parser.parse(expired_at)
-
-    # Перевіряємо у форматі UTC
     if expired_at < datetime.utcnow():
         raise HTTPException(status_code=440, detail="Session expired")
 
+    # Перевіряємо наявність даних
     cipher_text = data.get("cipher_text")
+    client_hash = data.get("hash")
     if not cipher_text:
         raise HTTPException(status_code=400, detail="Missing cipher_text")
+    if not client_hash:
+        raise HTTPException(status_code=400, detail="Missing hash")
 
-    #  Створюємо об'єкт AES ключа з даних сесії
+    # Створюємо AES ключ
     aes_key_model = AesKey(key=session.aes_key, iv=session.iv)
 
-    #  Розшифровуємо повідомлення
+    # Розшифровуємо повідомлення
     decrypted_msg = aes_service.decrypt(aes_key_model, cipher_text)
 
-    #  Формуємо відповідь із поточним часом (UTC)
+    # Перевірка цілісності повідомлення через SHA-256
+    server_hash = hash_service.sha256(decrypted_msg)
+    if client_hash != server_hash:
+        raise HTTPException(status_code=400, detail="Data tampered or corrupted")
+
+    # Формуємо відповідь
     reply = f"[{datetime.utcnow().strftime('%H:%M:%S')} UTC] Server received: {decrypted_msg}"
 
-    #  Шифруємо відповідь
+    # Шифруємо відповідь
     encrypted_reply = aes_service.encrypt(aes_key_model, reply)
 
     return {"cipher_text": encrypted_reply}
