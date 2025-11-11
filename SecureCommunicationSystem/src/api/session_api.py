@@ -97,3 +97,11 @@ def message(data: dict, x_session_id: str = Header(...)):
     encrypted_reply = aes_service.encrypt(aes_key_model, reply)
 
     return {"cipher_text": encrypted_reply}
+
+
+@router.get("/sessions")
+def get_sessions():
+    """
+    Повертає всі активні та прострочені сесії.
+    """
+    return session_service.get_all_sessions()

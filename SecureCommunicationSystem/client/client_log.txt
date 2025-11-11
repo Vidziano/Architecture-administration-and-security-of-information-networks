@@ -118,3 +118,16 @@
 [2025-11-11 02:20:12] Handshake established: {'status': 'handshake_successful', 'session_id': 'bc583101-508f-4c8f-9b5c-e467d93eb3b2'}
 [2025-11-11 02:20:14] Client: привіт
 [2025-11-11 02:20:14] Server: [00:20:14 UTC] Server received: привіт
+[2025-11-11 02:27:02] Отримано RSA ключ із id: cc1b094e-0519-42f4-8de1-23b564630684
+[2025-11-11 02:27:03] Handshake established: {'status': 'handshake_successful', 'session_id': '35c9f81b-b516-4b9b-902f-b4ec8058feb9'}
+[2025-11-11 02:27:11] Client: привіт
+[2025-11-11 02:27:11] Server: [00:27:11 UTC] Server received: привіт
+[2025-11-11 02:27:13] Client: хай
+[2025-11-11 02:27:13] Server: [00:27:13 UTC] Server received: хай
+[2025-11-11 02:28:56] Сесія завершилась — ініціація нової.
+[2025-11-11 02:28:56] Отримано RSA ключ із id: 2ba4bade-f4b4-4d53-9081-ee1c9919bb67
+[2025-11-11 02:28:56] Handshake established: {'status': 'handshake_successful', 'session_id': '90eafcd2-732c-4935-b8a3-b01657df573a'}
+[2025-11-11 02:29:08] Client: ghbdsnbr
+[2025-11-11 02:29:08] Server: [00:29:08 UTC] Server received: ghbdsnbr
+[2025-11-11 02:29:21] Отримано RSA ключ із id: 116faf13-2da9-46ab-8f3b-172eeff55292
+[2025-11-11 02:29:21] Handshake established: {'status': 'handshake_successful', 'session_id': '9b372cac-4165-4135-8cdd-4166a348eb60'}

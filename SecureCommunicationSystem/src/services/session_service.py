@@ -9,6 +9,8 @@ from src.models.rsa_keys import RsaKeys
 from src.models.aes_key import AesKey
 from src.services.rsa_service import RsaService
 from datetime import datetime, timedelta
+from datetime import datetime
+from dateutil import parser
 
 SESSION_DURATION_MINUTES = 1  # тривалість сесії у хвилинах
 
@@ -49,3 +51,21 @@ class SessionService:
     def get_session(self, session_id: str) -> SessionData | None:
         """Повертає сесію, якщо вона існує."""
         return self.sessions.get(session_id)
+    
+
+    def get_all_sessions(self) -> list[dict]:
+        """Повертає список усіх сесій із їхнім статусом і часом завершення."""
+        sessions_list = []
+        for session_id, session in self.sessions.items():
+            expired_at = session.expired_at
+            if isinstance(expired_at, str):
+                expired_at = parser.parse(expired_at)
+
+            status = "expired" if expired_at < datetime.utcnow() else "valid"
+            sessions_list.append({
+                "session_id": session_id,
+                "status": status,
+                "expired_at": expired_at.strftime("%Y-%m-%d %H:%M:%S UTC")
+            })
+        return sessions_list
+
